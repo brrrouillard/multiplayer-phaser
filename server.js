@@ -3,7 +3,7 @@ const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io").listen(server);
 
-const port = 8081;
+const port = process.env.PORT || 8081;
 
 app.use(express.static(__dirname + "/public"));
 
@@ -43,7 +43,7 @@ io.on("connection", socket => {
     // emit a message to all players about the player that moved
     socket.broadcast.emit("playerMoved", players[socket.id]);
   });
-  
+
   socket.on("starCollected", function() {
     if (players[socket.id].team === "red") {
       scores.red += 10;
